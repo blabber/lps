@@ -57,7 +57,7 @@ eval $PKG query "$FILTER" "'%m %o'" \
 				' > "$TMPFILE"
 		fi
 
-		$GREP "$PORT\>" "$TMPFILE"
+		$GREP "^$PORT[[:blank:]]" "$TMPFILE"
 	done
 
 $RM "$TMPFILE"
