@@ -19,15 +19,19 @@ usage() {
 	exec >&2
 	echo "usage: $0 [options]"
 	echo "options:"
-	echo "    -a	do not only list unmaintained ports"
+	echo "    -a			do not only list unmaintained ports"
+	echo "    -m <maintainer>	list ports maintained by <maintainer>"
 	exit 1
 }
 
-FILTER="-e '%m = ports@FreeBSD.org'"
-while getopts "a" option ; do
+FILTER="grep -i '^ports@freebsd.org '"
+while getopts "am:" option ; do
 	case $option in
 	a)
-		FILTER="'-a'"
+		FILTER="cat"
+		;;
+	m)
+		FILTER="grep -i '^$OPTARG '"
 		;;
 	*)	usage
 		;;
@@ -35,9 +39,10 @@ while getopts "a" option ; do
 done
 shift $((OPTIND-1))
 
-eval $PKG query "$FILTER" "'%m %o'" \
+eval $PKG query -a "'%m %o'" \
 	| $AWK '{ print tolower($1), $2 }' \
 	| $SORT \
+	| eval "$FILTER" \
 	| while read MAINTAINER PORT ; do
 		if [ ${last:-x} != "$MAINTAINER" ] ; then
 			last="$MAINTAINER"

@@ -23,3 +23,8 @@ On my machine executing `lps.sh` yields right now:
 You can use `lps.sh` to show all outdated ports (in the sense  that
 portscout.freebsd.org has found newer distfiles) on your machine by executing
 `lps.sh -a`.
+
+You can use `lps.sh` to show all outdated ports (in the sense  that
+portscout.freebsd.org has found newer distfiles) on your machine maintained by a
+given maintainer by executing `lps.sh -m <email of maintainer>`.
+
